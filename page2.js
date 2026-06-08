@@ -4,7 +4,22 @@
 
 const SUPABASE_URL = "https://cgdkwaefhmsnzvojbpzj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_5fnDp4vdz-zHUVZUZjl8JQ_xr8IPq3s";
-
+ 
+// Récupère l'identifiant de l'appareil,
+// ou en génère un nouveau si c'est la première visite
+function getAppareilId()
+{
+    let id = localStorage.getItem("appareil_id");
+ 
+    if(!id)
+    {
+        id = "appareil_" + Math.random().toString(36).substring(2, 10);
+        localStorage.setItem("appareil_id", id);
+    }
+ 
+    return id;
+}
+ 
 async function enregistrerChoix(choix)
 {
     await fetch(`${SUPABASE_URL}/rest/v1/choix`, {
@@ -14,7 +29,10 @@ async function enregistrerChoix(choix)
             "apikey": SUPABASE_KEY,
             "Authorization": `Bearer ${SUPABASE_KEY}`
         },
-        body: JSON.stringify({ activite: choix })
+        body: JSON.stringify({
+            activite:    choix,
+            appareil_id: getAppareilId()
+        })
     });
 }
 
