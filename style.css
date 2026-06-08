@@ -1,0 +1,111 @@
+body {
+
+    background: #111;
+
+    color: white;
+
+    font-family: Arial, sans-serif;
+
+    height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    overflow: hidden;
+}
+
+.card {
+    
+    position: relative;
+
+    background: #1e1e1e;
+
+    border: 2px solid #b15cff;
+
+    border-radius: 20px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    width: 500px;
+
+    box-shadow: 0px 0px 30px rgba(177,92,255,0.4);
+}
+
+button {
+
+    padding: 12px 25px;
+
+    margin: 10px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}
+
+#yesButton {
+
+    background: #ff69b4;
+}
+
+#noButton {
+
+    background: #555;
+
+    color: white;
+
+    position: fixed;
+
+    top: 50%;
+
+    left: 60%;
+}
+
+#backButton {
+
+    position: absolute;
+
+    top: 15px;
+
+    left: 15px;
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 50%;
+
+    background: #7c3aed;
+
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    border: none;
+
+    cursor: pointer;
+
+    display: none;
+
+    /* Centrage parfait de la flèche dans le cercle */
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    line-height: 1;
+    padding: 0;
+}
+
+#backButton.visible {
+    display: flex;
+}
