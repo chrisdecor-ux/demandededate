@@ -4,22 +4,22 @@
 
 const SUPABASE_URL = "https://cgdkwaefhmsnzvojbpzj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_5fnDp4vdz-zHUVZUZjl8JQ_xr8IPq3s";
- 
+
 // Récupère l'identifiant de l'appareil,
 // ou en génère un nouveau si c'est la première visite
 function getAppareilId()
 {
     let id = localStorage.getItem("appareil_id");
- 
+
     if(!id)
     {
         id = "appareil_" + Math.random().toString(36).substring(2, 10);
         localStorage.setItem("appareil_id", id);
     }
- 
+
     return id;
 }
- 
+
 async function enregistrerChoix(choix)
 {
     await fetch(`${SUPABASE_URL}/rest/v1/choix`, {
@@ -159,7 +159,6 @@ async function finalChoice(choice)
     const question = document.getElementById("question");
     const choices  = document.getElementById("choices");
 
-    // Enregistrement dans Supabase
     await enregistrerChoix(choice);
 
     question.innerHTML = "Ton choix a été enregistré 😎";
@@ -170,7 +169,7 @@ async function finalChoice(choice)
             <strong>${choice}</strong>
         </p>
         <button onclick="location.reload()">
-            🔄 Modifier mon choix
+            🔄 Recommencer
         </button>
     `;
 }
