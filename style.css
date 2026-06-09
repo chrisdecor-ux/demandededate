@@ -9,10 +9,6 @@ body {
     overflow: hidden;
 }
 
-/* ==============================
-   Images gauche et droite
-   ============================== */
-
 #imageGauche,
 #imageDroite {
     position: fixed;
@@ -24,15 +20,12 @@ body {
     border-radius: 15px;
     border: 2px solid #b15cff;
     box-shadow: 0px 0px 20px rgba(177,92,255,0.3);
-    transition: opacity 0.4s ease;  /* fondu doux au changement */
+    transition: opacity 0.4s ease;
+    z-index: 0;
 }
 
 #imageGauche { left: 20px; }
 #imageDroite { right: 20px; }
-
-/* ==============================
-   Carte centrale
-   ============================== */
 
 .card {
     position: relative;
@@ -66,6 +59,7 @@ button {
     position: fixed;
     top: 50%;
     left: 60%;
+    z-index: 10; /* toujours au dessus de tout */
 }
 
 #backButton {
@@ -93,24 +87,17 @@ button {
    ============================== */
 @media (max-width: 700px) {
 
-    /* Les images passent en haut et en bas */
     #imageGauche,
     #imageDroite {
         width: 100px;
         height: 130px;
         top: auto;
         transform: none;
+        top: 10px;
     }
 
-    #imageGauche {
-        top: 10px;
-        left: 10px;
-    }
-
-    #imageDroite {
-        top: 10px;
-        right: 10px;
-    }
+    #imageGauche { left: 10px; }
+    #imageDroite { right: 10px; }
 
     body {
         align-items: flex-start;
@@ -138,6 +125,6 @@ button {
     #noButton {
         width: auto;
         position: fixed;
-        font-size: 16px;
+        z-index: 10;
     }
 }
