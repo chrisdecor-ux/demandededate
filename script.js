@@ -5,23 +5,28 @@ const yesButton = document.getElementById("yesButton");
 // Gestion des images sombres
 // ==============================
 
-// ⚠️ Si tu ajoutes des images, change ces nombres
+// Si ajoute des images, change ces nombres
 const NOMBRE_SOMBRE_GAUCHE = 8;
 const NOMBRE_SOMBRE_DROITE = 25;
 
 let indexSombreGauche = 0;
 let indexSombreDroite = 0;
 
-function changerImagesSombres()
+function afficherImagesSombres()
 {
-    indexSombreGauche = (indexSombreGauche + 1) % NOMBRE_SOMBRE_GAUCHE;
-    indexSombreDroite = (indexSombreDroite + 1) % NOMBRE_SOMBRE_DROITE;
-
     document.getElementById("imageGauche").src =
         "images/sombre_gauche/sombre_gauche" + (indexSombreGauche + 1) + ".jpg";
 
     document.getElementById("imageDroite").src =
         "images/sombre_droite/sombre_droite" + (indexSombreDroite + 1) + ".jpg";
+}
+
+function changerImagesSombres()
+{
+    indexSombreGauche = (indexSombreGauche + 1) % NOMBRE_SOMBRE_GAUCHE;
+    indexSombreDroite = (indexSombreDroite + 1) % NOMBRE_SOMBRE_DROITE;
+
+    afficherImagesSombres();
 }
 
 // ==============================
@@ -33,8 +38,18 @@ yesButton.addEventListener("click", function() {
 });
 
 // ==============================
-// Bouton Non — téléportation + changement d'image
+// Bouton Non — position initiale + téléportation
 // ==============================
+
+function placerBoutonNon()
+{
+    const btnWidth  = noButton.offsetWidth;
+    const btnHeight = noButton.offsetHeight;
+
+    // Position de départ : centré en bas du cadre
+    noButton.style.left = (window.innerWidth / 2 - btnWidth / 2) + "px";
+    noButton.style.top  = (window.innerHeight / 2 + 60) + "px";
+}
 
 noButton.addEventListener("mouseover", function() {
 
@@ -54,3 +69,13 @@ noButton.addEventListener("mouseover", function() {
 noButton.addEventListener("click", function() {
     changerImagesSombres();
 });
+
+// ==============================
+// Initialisation au chargement
+// ==============================
+
+// Affiche les images dès que la page est prête
+afficherImagesSombres();
+
+// Place le bouton Non à un endroit visible dès le départ
+placerBoutonNon();
