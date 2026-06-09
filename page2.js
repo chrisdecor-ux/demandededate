@@ -5,18 +5,14 @@
 const SUPABASE_URL = "https://cgdkwaefhmsnzvojbpzj.supabase.co";
 const SUPABASE_KEY = "sb_publishable_5fnDp4vdz-zHUVZUZjl8JQ_xr8IPq3s";
 
-// Récupère l'identifiant de l'appareil,
-// ou en génère un nouveau si c'est la première visite
 function getAppareilId()
 {
     let id = localStorage.getItem("appareil_id");
-
     if(!id)
     {
-        id = "appareil_" + Math.random().toString(36).substring(2, 10);
+        id = crypto.randomUUID();
         localStorage.setItem("appareil_id", id);
     }
-
     return id;
 }
 
@@ -37,6 +33,29 @@ async function enregistrerChoix(choix)
 }
 
 // ==============================
+// Gestion des images joyeuses
+// ==============================
+
+// ⚠️ Si tu ajoutes des images, change ces nombres
+const NOMBRE_JOYEUX_GAUCHE = 17;
+const NOMBRE_JOYEUX_DROITE = 7;
+
+let indexJoyeuxGauche = 0;
+let indexJoyeuxDroite = 0;
+
+function changerImagesJoyeuses()
+{
+    indexJoyeuxGauche = (indexJoyeuxGauche + 1) % NOMBRE_JOYEUX_GAUCHE;
+    indexJoyeuxDroite = (indexJoyeuxDroite + 1) % NOMBRE_JOYEUX_DROITE;
+
+    document.getElementById("imageGauche").src =
+        "images/joyeux_gauche/joyeux_gauche" + (indexJoyeuxGauche + 1) + ".jpg";
+
+    document.getElementById("imageDroite").src =
+        "images/joyeux_droite/joyeux_droite" + (indexJoyeuxDroite + 1) + ".jpg";
+}
+
+// ==============================
 // Logique des choix
 // ==============================
 
@@ -44,18 +63,15 @@ let historyStack = [];
 
 function goBack()
 {
-    if(historyStack.length === 0)
-    {
-        return;
-    }
+    if(historyStack.length === 0) return;
 
     const previous = historyStack.pop();
 
-    document.getElementById("question").innerHTML =
-        previous.question;
+    document.getElementById("question").innerHTML = previous.question;
+    document.getElementById("choices").innerHTML  = previous.choices;
 
-    document.getElementById("choices").innerHTML =
-        previous.choices;
+    // Changement d'image aussi sur retour
+    changerImagesJoyeuses();
 
     if(historyStack.length === 0)
     {
@@ -72,77 +88,50 @@ function showCategory(category)
 
     document.getElementById("backButton").classList.add("visible");
 
+    // Changement d'image à chaque clic de catégorie
+    changerImagesJoyeuses();
+
     const question = document.getElementById("question");
     const choices  = document.getElementById("choices");
 
     if(category === "exterieur")
     {
         question.innerHTML = "Quel type de sortie extérieure ?";
-
         choices.innerHTML = `
-            <button onclick="finalChoice('Randonnée en montagne')">
-                ⛰️ Randonnée en montagne
-            </button>
-            <button onclick="finalChoice('Promenade en ville')">
-                🌆 Promenade en ville
-            </button>
-            <button onclick="finalChoice('Parc + glace')">
-                🍦 Parc + glace
-            </button>
+            <button onclick="finalChoice('Randonnée en montagne')">⛰️ Randonnée en montagne</button>
+            <button onclick="finalChoice('Promenade en ville')">🌆 Promenade en ville</button>
+            <button onclick="finalChoice('Parc + glace')">🍦 Parc + glace</button>
         `;
     }
 
     if(category === "interieur")
     {
         question.innerHTML = "Quel type d'activité intérieure ?";
-
         choices.innerHTML = `
-            <button onclick="finalChoice('Bowling')">
-                🎳 Bowling
-            </button>
-            <button onclick="finalChoice('Billard')">
-                🎱 Billard
-            </button>
-            <button onclick="finalChoice('Escape Game')">
-                🔐 Escape Game
-            </button>
-            <button onclick="finalChoice('Musée')">
-                🏛️ Musée
-            </button>
+            <button onclick="finalChoice('Bowling')">🎳 Bowling</button>
+            <button onclick="finalChoice('Billard')">🎱 Billard</button>
+            <button onclick="finalChoice('Escape Game')">🔐 Escape Game</button>
+            <button onclick="finalChoice('Musée')">🏛️ Musée</button>
         `;
     }
 
     if(category === "cafe")
     {
         question.innerHTML = "Quelle ambiance café ?";
-
         choices.innerHTML = `
-            <button onclick="finalChoice('Café tranquille')">
-                ☕ Café tranquille
-            </button>
-            <button onclick="finalChoice('Salon de thé')">
-                🫖 Salon de thé
-            </button>
-            <button onclick="finalChoice('Pâtisserie')">
-                🍰 Pâtisserie
-            </button>
+            <button onclick="finalChoice('Café tranquille')">☕ Café tranquille</button>
+            <button onclick="finalChoice('Salon de thé')">🫖 Salon de thé</button>
+            <button onclick="finalChoice('Pâtisserie')">🍰 Pâtisserie</button>
         `;
     }
 
     if(category === "repas")
     {
         question.innerHTML = "Quel type de repas ?";
-
         choices.innerHTML = `
-            <button onclick="finalChoice('Sushi')">
-                🍣 Sushi
-            </button>
-            <button onclick="finalChoice('Italien')">
-                🍝 Italien
-            </button>
-            <button onclick="finalChoice('Surprise du chef')">
-                😈 Surprise du chef
-            </button>
+            <button onclick="finalChoice('Sushi')">🍣 Sushi</button>
+            <button onclick="finalChoice('Italien')">🍝 Italien</button>
+            <button onclick="finalChoice('Surprise du chef')">😈 Surprise du chef</button>
         `;
     }
 }
@@ -156,20 +145,15 @@ async function finalChoice(choice)
 
     document.getElementById("backButton").classList.add("visible");
 
-    const question = document.getElementById("question");
-    const choices  = document.getElementById("choices");
+    // Changement d'image au choix final
+    changerImagesJoyeuses();
 
     await enregistrerChoix(choice);
 
-    question.innerHTML = "Ton choix a été enregistré 😎";
+    document.getElementById("question").innerHTML = "Ton choix a été enregistré 😎";
 
-    choices.innerHTML = `
-        <p>
-            Tu as choisi :
-            <strong>${choice}</strong>
-        </p>
-        <button onclick="location.reload()">
-            🔄 Recommencer
-        </button>
+    document.getElementById("choices").innerHTML = `
+        <p>Tu as choisi : <strong>${choice}</strong></p>
+        <button onclick="location.reload()">🔄 Recommencer</button>
     `;
 }
