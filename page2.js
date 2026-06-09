@@ -36,7 +36,7 @@ async function enregistrerChoix(choix)
 // Gestion des images joyeuses
 // ==============================
 
-// ⚠️ Si tu ajoutes des images, change ces nombres
+// Si ajoute images, changer nombres
 const NOMBRE_JOYEUX_GAUCHE = 17;
 const NOMBRE_JOYEUX_DROITE = 7;
 
@@ -134,6 +134,7 @@ function showCategory(category)
             <button onclick="finalChoice('Billard')">🎱 Billard</button>
             <button onclick="finalChoice('Escape Game')">🔐 Escape Game</button>
             <button onclick="finalChoice('Musée')">🏛️ Musée</button>
+            <button onclick="finalChoice('Cinéma')">🎬 Cinéma</button>
         `;
     }
 
