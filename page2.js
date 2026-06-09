@@ -40,6 +40,7 @@ async function enregistrerChoix(choix)
 const NOMBRE_JOYEUX_GAUCHE = 17;
 const NOMBRE_JOYEUX_DROITE = 7;
 
+// On commence à 0 = joyeux_gauche1 et joyeux_droite1
 let indexJoyeuxGauche = 0;
 let indexJoyeuxDroite = 0;
 
@@ -61,6 +62,35 @@ function changerImagesJoyeuses()
 
 let historyStack = [];
 
+function modifierChoix()
+{
+    // Remet la question et les choix principaux
+    // sans recharger la page — les compteurs continuent !
+    historyStack = [];
+
+    document.getElementById("backButton").classList.remove("visible");
+
+    document.getElementById("question").innerHTML =
+        "Quelle ambiance te tente le plus ?";
+
+    document.getElementById("choices").innerHTML = `
+        <button onclick="showCategory('exterieur')">
+            🌲 Activité extérieure
+        </button>
+        <button onclick="showCategory('interieur')">
+            🏠 Activité intérieure
+        </button>
+        <button onclick="showCategory('cafe')">
+            ☕ Café
+        </button>
+        <button onclick="showCategory('repas')">
+            🍽️ Repas
+        </button>
+    `;
+
+    changerImagesJoyeuses();
+}
+
 function goBack()
 {
     if(historyStack.length === 0) return;
@@ -70,7 +100,6 @@ function goBack()
     document.getElementById("question").innerHTML = previous.question;
     document.getElementById("choices").innerHTML  = previous.choices;
 
-    // Changement d'image aussi sur retour
     changerImagesJoyeuses();
 
     if(historyStack.length === 0)
@@ -88,7 +117,6 @@ function showCategory(category)
 
     document.getElementById("backButton").classList.add("visible");
 
-    // Changement d'image à chaque clic de catégorie
     changerImagesJoyeuses();
 
     const question = document.getElementById("question");
@@ -145,15 +173,15 @@ async function finalChoice(choice)
 
     document.getElementById("backButton").classList.add("visible");
 
-    // Changement d'image au choix final
     changerImagesJoyeuses();
 
     await enregistrerChoix(choice);
 
-    document.getElementById("question").innerHTML = "Ton choix a été enregistré 😎";
+    document.getElementById("question").innerHTML =
+        "Ton choix a été enregistré 😎";
 
     document.getElementById("choices").innerHTML = `
         <p>Tu as choisi : <strong>${choice}</strong></p>
-        <button onclick="location.reload()">🔄 Recommencer</button>
+        <button onclick="modifierChoix()">✏️ Modifier mon choix</button>
     `;
 }
