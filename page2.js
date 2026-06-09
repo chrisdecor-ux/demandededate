@@ -40,20 +40,24 @@ async function enregistrerChoix(choix)
 const NOMBRE_JOYEUX_GAUCHE = 17;
 const NOMBRE_JOYEUX_DROITE = 7;
 
-// On commence à 0 = joyeux_gauche1 et joyeux_droite1
 let indexJoyeuxGauche = 0;
 let indexJoyeuxDroite = 0;
+
+function afficherImagesJoyeuses()
+{
+    document.getElementById("imageGauche").src =
+        "images/joyeux_gauche/joyeux_gauche" + (indexJoyeuxGauche + 1) + ".jpg";
+
+    document.getElementById("imageDroite").src =
+        "images/joyeux_droite/joyeux_droite" + (indexJoyeuxDroite + 1) + ".jpg";
+}
 
 function changerImagesJoyeuses()
 {
     indexJoyeuxGauche = (indexJoyeuxGauche + 1) % NOMBRE_JOYEUX_GAUCHE;
     indexJoyeuxDroite = (indexJoyeuxDroite + 1) % NOMBRE_JOYEUX_DROITE;
 
-    document.getElementById("imageGauche").src =
-        "images/joyeux_gauche/joyeux_gauche" + (indexJoyeuxGauche + 1) + ".jpg";
-
-    document.getElementById("imageDroite").src =
-        "images/joyeux_droite/joyeux_droite" + (indexJoyeuxDroite + 1) + ".jpg";
+    afficherImagesJoyeuses();
 }
 
 // ==============================
@@ -64,8 +68,6 @@ let historyStack = [];
 
 function modifierChoix()
 {
-    // Remet la question et les choix principaux
-    // sans recharger la page — les compteurs continuent !
     historyStack = [];
 
     document.getElementById("backButton").classList.remove("visible");
@@ -74,18 +76,10 @@ function modifierChoix()
         "Quelle ambiance te tente le plus ?";
 
     document.getElementById("choices").innerHTML = `
-        <button onclick="showCategory('exterieur')">
-            🌲 Activité extérieure
-        </button>
-        <button onclick="showCategory('interieur')">
-            🏠 Activité intérieure
-        </button>
-        <button onclick="showCategory('cafe')">
-            ☕ Café
-        </button>
-        <button onclick="showCategory('repas')">
-            🍽️ Repas
-        </button>
+        <button onclick="showCategory('exterieur')">🌲 Activité extérieure</button>
+        <button onclick="showCategory('interieur')">🏠 Activité intérieure</button>
+        <button onclick="showCategory('cafe')">☕ Café</button>
+        <button onclick="showCategory('repas')">🍽️ Repas</button>
     `;
 
     changerImagesJoyeuses();
@@ -185,3 +179,9 @@ async function finalChoice(choice)
         <button onclick="modifierChoix()">✏️ Modifier mon choix</button>
     `;
 }
+
+// ==============================
+// Initialisation au chargement
+// ==============================
+
+afficherImagesJoyeuses();
