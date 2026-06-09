@@ -1,111 +1,143 @@
 body {
-
     background: #111;
-
     color: white;
-
     font-family: Arial, sans-serif;
-
-    height: 100vh;
-
+    min-height: 100vh;
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     overflow: hidden;
 }
 
-.card {
-    
-    position: relative;
+/* ==============================
+   Images gauche et droite
+   ============================== */
 
-    background: #1e1e1e;
-
+#imageGauche,
+#imageDroite {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 15px;
     border: 2px solid #b15cff;
-
-    border-radius: 20px;
-
-    padding: 40px;
-
-    text-align: center;
-
-    width: 500px;
-
-    box-shadow: 0px 0px 30px rgba(177,92,255,0.4);
+    box-shadow: 0px 0px 20px rgba(177,92,255,0.3);
+    transition: opacity 0.4s ease;  /* fondu doux au changement */
 }
 
+#imageGauche { left: 20px; }
+#imageDroite { right: 20px; }
+
+/* ==============================
+   Carte centrale
+   ============================== */
+
+.card {
+    position: relative;
+    background: #1e1e1e;
+    border: 2px solid #b15cff;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    width: 500px;
+    box-shadow: 0px 0px 30px rgba(177,92,255,0.4);
+    z-index: 1;
+}
+
+h1 { font-size: 28px; margin-bottom: 15px; }
+p  { font-size: 18px; }
+
 button {
-
     padding: 12px 25px;
-
     margin: 10px;
-
     border: none;
-
     border-radius: 10px;
-
     cursor: pointer;
-
     font-size: 18px;
 }
 
-#yesButton {
-
-    background: #ff69b4;
-}
+#yesButton { background: #ff69b4; }
 
 #noButton {
-
     background: #555;
-
     color: white;
-
     position: fixed;
-
     top: 50%;
-
     left: 60%;
 }
 
 #backButton {
-
     position: absolute;
-
     top: 15px;
-
     left: 15px;
-
     width: 45px;
-
     height: 45px;
-
     border-radius: 50%;
-
     background: #7c3aed;
-
     color: white;
-
     font-size: 22px;
-
-    font-weight: bold;
-
     border: none;
-
     cursor: pointer;
-
-    display: none;
-
-    /* Centrage parfait de la flèche dans le cercle */
     display: none;
     align-items: center;
     justify-content: center;
-
-    line-height: 1;
     padding: 0;
 }
 
-#backButton.visible {
-    display: flex;
+#backButton.visible { display: flex; }
+
+/* ==============================
+   TÉLÉPHONE (écran < 700px)
+   ============================== */
+@media (max-width: 700px) {
+
+    /* Les images passent en haut et en bas */
+    #imageGauche,
+    #imageDroite {
+        width: 100px;
+        height: 130px;
+        top: auto;
+        transform: none;
+    }
+
+    #imageGauche {
+        top: 10px;
+        left: 10px;
+    }
+
+    #imageDroite {
+        top: 10px;
+        right: 10px;
+    }
+
+    body {
+        align-items: flex-start;
+        padding: 160px 20px 20px 20px;
+        overflow-y: auto;
+    }
+
+    .card {
+        width: 100%;
+        padding: 30px 20px;
+        box-sizing: border-box;
+    }
+
+    h1 { font-size: 22px; }
+    p  { font-size: 16px; }
+
+    button {
+        font-size: 16px;
+        padding: 14px 20px;
+        width: 100%;
+        margin: 6px 0;
+        box-sizing: border-box;
+    }
+
+    #noButton {
+        width: auto;
+        position: fixed;
+        font-size: 16px;
+    }
 }
